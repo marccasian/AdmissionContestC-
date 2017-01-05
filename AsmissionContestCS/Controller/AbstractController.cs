@@ -12,10 +12,12 @@ namespace AsmissionContestCS.Controller
     abstract class AbstractController<E, Id> : IController<E, Id> where E : IHasID<Id>
     {
         protected IRepository<E, Id> Repository;
+        protected IValidator<E> Validator;
 
-        public AbstractController(IRepository<E, Id> repo)
+        public AbstractController(IRepository<E, Id> repo, IValidator<E> vali)
         {
             this.Repository = repo;
+            this.Validator = vali;
         }
 
         public IEnumerable GetAll()
@@ -64,5 +66,6 @@ namespace AsmissionContestCS.Controller
                 return default(E);
             }
         }
+
     }
 }

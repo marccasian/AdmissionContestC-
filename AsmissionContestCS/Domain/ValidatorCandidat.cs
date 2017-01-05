@@ -10,23 +10,27 @@ namespace AdmissionContestCS
     {
         public void validate(Candidat item)
         {
-            StringBuilder msg = new StringBuilder();
+            string msg = "";
 
             if (item.Nume == "")
             {
-                msg.Append("Numele nu poate fi vid!\n");
+                msg+="Numele nu poate fi vid!\n";
             }
             if (item.Adresa == "")
             {
-                msg.Append("Adresa nu poate fi vida!\n");
+                msg+="Adresa nu poate fi vida!\n";
             }
             if (item.Varsta < 1)
             {
-                msg.Append("Varsta trebuie sa fie pozitiva!\n");
+                msg+="Varsta trebuie sa fie pozitiva!\n";
             }
             if (item.Telefon.Length != 10)
             {
-                msg.Append("Numarul de telefon trebuie sa aiba lungimea 10!\n");
+                msg+="Numarul de telefon trebuie sa aiba lungimea 10!\n";
+            }
+            if (msg != "")
+            {
+                throw new CustomException(msg);
             }
         }
     }

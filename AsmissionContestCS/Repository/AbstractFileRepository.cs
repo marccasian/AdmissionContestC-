@@ -26,5 +26,20 @@ namespace AsmissionContestCS.Repository
             WriteToFile();
             return e;
         }
+
+        public override E Remove(Id id)
+        {
+            E e = base.Remove(id);
+            WriteToFile();
+            return e;
+        }
+
+        public override E Update(E entity)
+        {
+            E e = base.Update(entity);
+            WriteToFile();
+            return e;
+        }
+
     }
 }

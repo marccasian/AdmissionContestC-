@@ -22,7 +22,7 @@ namespace AsmissionContestCS.Domain
 
         public override string ToString()
         {
-            return Nume + " " + NrLoc.ToString();
+            return Id.ToString() + ' ' + Nume + " " + NrLoc.ToString();
         }
     }   
 }

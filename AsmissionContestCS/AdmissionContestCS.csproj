@@ -66,6 +66,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="candidati.txt" />
+    <Content Include="Repository\candidati.txt" />
+    <Content Include="Repository\sectii.txt" />
+    <Content Include="sectii.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

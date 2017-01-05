@@ -20,10 +20,13 @@ namespace AsmissionContestCS.Repository
             }
             using (StreamReader rd = new StreamReader(base.FileName))
             {
-                string line = rd.ReadLine();
-                string[] attrs = line.Split(';');
-                Sectie s = new Sectie(int.Parse(attrs[0]), attrs[1], int.Parse(attrs[2]));
-                base.all.Add(s);
+                while (!rd.EndOfStream)
+                {
+                    string line = rd.ReadLine();
+                    string[] attrs = line.Split(';');
+                    Sectie s = new Sectie(int.Parse(attrs[0]), attrs[1], int.Parse(attrs[2]));
+                    base.all.Add(s);
+                }
             }
         }
 

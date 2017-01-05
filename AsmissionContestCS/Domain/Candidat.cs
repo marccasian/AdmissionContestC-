@@ -27,7 +27,7 @@ namespace AdmissionContestCS
 
         public override string ToString()
         {
-            return Nume + ' ' + Varsta.ToString();
+            return Id.ToString()+ ' '+ Nume + ' ' + Varsta.ToString();
         }
     }
 }

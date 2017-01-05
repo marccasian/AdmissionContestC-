@@ -1,5 +1,7 @@
-﻿using AdmissionContestCS.Domain;
+﻿using AdmissionContestCS;
+using AdmissionContestCS.Domain;
 using AsmissionContestCS.Controller;
+using AsmissionContestCS.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,18 @@ namespace AsmissionContestCS.UI
     class AdmissionContestUI
     {
 
-        public void MainLoop(CandidatController cctr, SectiiController sctr)
+        public CandidatController CController { get; set; }
+        public SectiiController SController { get; set; }
+
+        public AdmissionContestUI(CandidatController cctr, SectiiController sctr)
+        {
+            CController = cctr;
+            SController = sctr;
+            MainLoop();
+        }
+
+
+        public void MainLoop()
         {
             while (true)
             {
@@ -61,42 +74,161 @@ namespace AsmissionContestCS.UI
 
         private void AfisareSectii()
         {
-            throw new NotImplementedException();
+            Enter();
+            Console.WriteLine("---> Sectii <---");
+            foreach (Sectie s in SController.GetAll())
+            {
+                Console.WriteLine(s);
+            }
         }
 
         private void AfisareCandidati()
         {
-            throw new NotImplementedException();
-        }
-
-        private void UpdateSectie()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void RemoveSectie()
-        {
-            throw new NotImplementedException();
+            Enter();
+            Console.WriteLine("---> Candidati <---");
+            foreach (Candidat c in CController.GetAll())
+            {
+                Console.WriteLine(c);
+            }
         }
 
         private void AddSectie()
         {
-            throw new NotImplementedException();
+            Enter();
+            Console.WriteLine("Adaugare sectie:");
+            Console.WriteLine("     Dati numele:");
+            string nume = ReadInput();
+            Console.WriteLine("     Dati numarul de locuri:");
+            string nrLoc = ReadInput();
+            try
+            {
+                Sectie s = SController.Save(nume, nrLoc);
+                Console.WriteLine("Sectia a fost adaugata!");
+                Enter();
+            }
+            catch (CustomException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private string ReadInput()
+        {
+            string line = Console.ReadLine();
+            return line;
+        }
+
+        private void UpdateSectie()
+        {
+            AfisareSectii();
+            Enter();
+            Console.WriteLine("     Dati id-ul sectiei pe care doriti sa o modificati:");
+            string id_mod = ReadInput();
+            Console.WriteLine("     Dati noul nume:");
+            string nume = ReadInput();
+            Console.WriteLine("     Dati noul numar de locuri:");
+            string nrLoc = ReadInput();
+            try
+            {
+                Sectie s = SController.Update(id_mod, nume, nrLoc);
+                Console.WriteLine("Sectia: " + s.Nume + " a fost modificata!");
+                Enter();
+            }
+            catch (CustomException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private void Enter()
+        {
+            Console.WriteLine();
+        }
+
+        private void RemoveSectie()
+        {
+            AfisareSectii();
+            Enter();
+            Console.WriteLine("     Dati id-ul sectiei pe care doriti sa o stergeti:");
+            string id_del = ReadInput();
+            try
+            {
+                Sectie s = SController.Remove(id_del);
+                Console.WriteLine("Sectia: "+s.Nume+" a fost stearsa!");
+                Enter();
+            }
+            catch ( CustomException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private void UpdateCandidat()
         {
-            throw new NotImplementedException();
+            AfisareCandidati();
+            Enter();
+            Console.WriteLine("     Dati id-ul candidatului pe care doriti sa il modificati:");
+            string id_mod = ReadInput();
+            Console.WriteLine("     Dati noul nume:");
+            string nume = ReadInput();
+            Console.WriteLine("     Dati noua adresa:");
+            string adresa = ReadInput();
+            Console.WriteLine("     Dati noua varsta:");
+            string varsta = ReadInput();
+            Console.WriteLine("     Dati noul numar de telefon:");
+            string nrTel = ReadInput();
+            try
+            {
+                Candidat c = CController.Update(id_mod, nume, adresa, varsta, nrTel);
+                Console.WriteLine("Candidatul: " + c.Nume + " a fost modificat!");
+                Enter();
+            }
+            catch (CustomException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private void RemoveCandidat()
         {
-            throw new NotImplementedException();
+            AfisareCandidati();
+            Enter();
+            Console.WriteLine("     Dati id-ul candidatului pe care doriti sa il stergeti:");
+            string id_del = ReadInput();
+            try
+            {
+                Candidat c = CController.Remove(id_del);
+                Console.WriteLine("Candidatul: " + c.Nume + " a fost sters!");
+                Enter();
+            }
+            catch (CustomException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private void AddCandidat()
         {
-            throw new NotImplementedException();
+            Enter();
+            Console.WriteLine("Adaugare candidat:");
+            Console.WriteLine("     Dati numele:");
+            string nume = ReadInput();
+            Console.WriteLine("     Dati adresa:");
+            string adresa = ReadInput();
+            Console.WriteLine("     Dati varsta:");
+            string varsta = ReadInput();
+            Console.WriteLine("     Dati numarul de telefon:");
+            string nrTel = ReadInput();
+            try
+            {
+                Candidat c = CController.Save(nume, adresa, varsta, nrTel);
+                Console.WriteLine("Candidatul a fost adaugat!");
+                Enter();
+            }
+            catch (CustomException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public void AfisareMeniu()
@@ -104,15 +236,14 @@ namespace AsmissionContestCS.UI
             Console.WriteLine("--->   MENU   <---");
             Console.WriteLine("1 - Add Candidat");
             Console.WriteLine("2 - Remove Candidat");
-            Console.WriteLine("3 - Remove Candidat");
-            Console.WriteLine("4 - Update Candidat");
-            Console.WriteLine("5 - Add Sectie");
-            Console.WriteLine("6 - Remove Sectie");
-            Console.WriteLine("7 - Update Sectie");
-            Console.WriteLine("8 - All Candidati");
-            Console.WriteLine("9 - All Sectii");
+            Console.WriteLine("3 - Update Candidat");
+            Console.WriteLine("4 - Add Sectie");
+            Console.WriteLine("5 - Remove Sectie");
+            Console.WriteLine("6 - Update Sectie");
+            Console.WriteLine("7 - All Candidati");
+            Console.WriteLine("8 - All Sectii");
             Console.WriteLine("0 - Exit");
-            Console.WriteLine();
+            Enter();
             Console.WriteLine("Optiune: ");
         }
 
@@ -121,6 +252,7 @@ namespace AsmissionContestCS.UI
         {
             int cmd = -1;
             string line = Console.ReadLine();
+
             if (int.TryParse(line,out cmd)) {
                 if (cmd >= 0 && cmd <= 9)
                 {
@@ -129,21 +261,21 @@ namespace AsmissionContestCS.UI
                 else
                 {
                     InvalidCmd(line);
+                    return -1;
                 }
 
             }
             else
             {
                 InvalidCmd(line);
-            }
-            return cmd;       
+                return -1;
+            }     
         }
 
         private void InvalidCmd(string str)
         {
-            Console.WriteLine();
             Console.WriteLine("Comanda invalida: " + str);
-            Console.WriteLine();
+            Enter();
         }
 
     }
