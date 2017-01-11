@@ -44,17 +44,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\AbstractController.cs" />
+    <Compile Include="Controller\InscrieriController.cs" />
     <Compile Include="Controller\CandidatController.cs" />
     <Compile Include="Controller\IController.cs" />
     <Compile Include="Controller\SectiiController.cs" />
     <Compile Include="Domain\Candidat.cs" />
     <Compile Include="Domain\CustomException.cs" />
     <Compile Include="Domain\IHasID.cs" />
+    <Compile Include="Domain\Inscriere.cs" />
     <Compile Include="Domain\Sectie.cs" />
+    <Compile Include="Domain\ValidatorInscriere.cs" />
     <Compile Include="Domain\ValidatorSectie.cs" />
     <Compile Include="Repository\AbstractFileRepository.cs" />
     <Compile Include="Repository\CandidatiFileRepository.cs" />
     <Compile Include="Repository\InMemoryRepository.cs" />
+    <Compile Include="Repository\InscrieriFileRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Domain\IValidator.cs" />
     <Compile Include="Program.cs" />
@@ -67,8 +71,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Repository\inscrieri.txt" />
+    <Content Include="candidati.txt" />
     <Content Include="Repository\candidati.txt" />
     <Content Include="Repository\sectii.txt" />
+    <Content Include="sectii.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

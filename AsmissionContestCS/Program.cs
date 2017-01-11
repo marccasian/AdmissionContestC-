@@ -17,6 +17,7 @@ namespace AdmissionContestCS
         {
             CandidatiFileRepository repoCand = default(CandidatiFileRepository);
             SectiiFileRepository repoSectii = default(SectiiFileRepository);
+            InscrieriFileRepository repoInsc = default(InscrieriFileRepository);
 
             try {
                 repoCand = new CandidatiFileRepository("E:\\GIT\\AdmissionContestCS\\AsmissionContestCS\\AsmissionContestCS\\Repository\\candidati.txt");
@@ -35,13 +36,24 @@ namespace AdmissionContestCS
                 Console.WriteLine(e.Message);
             }
 
+            try
+            {
+                repoInsc = new InscrieriFileRepository("E:\\GIT\\AdmissionContestCS\\AsmissionContestCS\\AsmissionContestCS\\Repository\\inscrieri.txt");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
             ValidatorCandidat vc = new ValidatorCandidat();
             ValidatorSectie vs = new ValidatorSectie();
+            ValidatorInscriere vi = new ValidatorInscriere();
 
             CandidatController controllerCand = new CandidatController(repoCand, vc);
             SectiiController controllerSectii = new SectiiController(repoSectii, vs);
+            InscrieriController controllerInscrieri = new InscrieriController(repoInsc, vi);
 
-            AdmissionContestUI UI = new AdmissionContestUI(controllerCand, controllerSectii);
+            AdmissionContestUI UI = new AdmissionContestUI(controllerCand, controllerSectii, controllerInscrieri);
 
             /*
             Sectie s1 = new Sectie(1, "", -300);

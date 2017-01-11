@@ -15,11 +15,13 @@ namespace AsmissionContestCS.UI
 
         public CandidatController CController { get; set; }
         public SectiiController SController { get; set; }
+        public InscrieriController IController { get; set; }
 
-        public AdmissionContestUI(CandidatController cctr, SectiiController sctr)
+        public AdmissionContestUI(CandidatController cctr, SectiiController sctr, InscrieriController ictr)
         {
             CController = cctr;
             SController = sctr;
+            IController = ictr;
             MainLoop();
         }
 
@@ -63,13 +65,112 @@ namespace AsmissionContestCS.UI
                 }
                 else if (7 == cmd)
                 {
-                    AfisareCandidati();
+                    AddInscriere();
                 }
                 else if (8 == cmd)
                 {
+                    RemoveInscriere();
+                }
+                else if (9 == cmd)
+                {
+                    AfisareCandidati();
+                }
+                else if (10 == cmd)
+                {
                     AfisareSectii();
                 }
+                else if (11 == cmd)
+                {
+                    AfisareInscrieri();
+                }
             }
+        }
+
+        private void RemoveInscriere()
+        {
+            AfisareInscrieri();
+            Enter();
+            Console.WriteLine("     Dati id-ul inscrierii pe care doriti sa o stergeti:");
+            string id_del = ReadInput();
+            try
+            {
+                Inscriere i = IController.Remove(id_del);
+                Console.WriteLine("Inscrierea: " + i.Id + " a fost stearsa!");
+                Enter();
+            }
+            catch (CustomException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private void AddInscriere()
+        {
+            Enter();
+            int nr1, nr;
+            Console.WriteLine("Adaugare inscriere:");
+            AfisareSectii();
+            Console.WriteLine("     Dati id-ul sectiei:");
+            string IdS = ReadInput();
+            AfisareCandidati();
+            Console.WriteLine("     Dati id-ul candidatului:");
+            string IdC = ReadInput();
+            if (int.TryParse(IdS, out nr))
+            {
+                if (int.TryParse(IdC, out nr1))
+                {
+                    try
+                    {
+                        if (ExistIdSectie(nr))
+                        {
+                            if (ExistIdCandidat(nr1))
+                            {
+                                Inscriere i = IController.Save(nr, nr1);
+                                Console.WriteLine("Inscrierea a fost adaugata!");
+                                Enter();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Nu exista nici o sectie cu id-ul introdus!");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Nu exista nici o sectie cu id-ul introdus!");
+                        }
+                    }
+                    catch (CustomException e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Id-ul candidatului trebuie sa fie un numar natural!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Id-ul sectiei trebuie sa fie un numar natural!");
+            }
+        }
+
+        private bool ExistIdSectie(int idS)
+        {
+            foreach(Sectie s in SController.GetAll())
+            {
+                if (s.Id == idS) return true;
+            }
+            return false;
+        }
+
+        private bool ExistIdCandidat(int idC)
+        {
+            foreach (Candidat c in CController.GetAll())
+            {
+                if (c.Id == idC) return true;
+            }
+            return false;
         }
 
         private void AfisareSectii()
@@ -89,6 +190,16 @@ namespace AsmissionContestCS.UI
             foreach (Candidat c in CController.GetAll())
             {
                 Console.WriteLine(c);
+            }
+        }
+
+        private void AfisareInscrieri()
+        {
+            Enter();
+            Console.WriteLine("---> Inscrieri <---");
+            foreach (Inscriere i in IController.GetAll())
+            {
+                Console.WriteLine(i);
             }
         }
 
@@ -240,8 +351,11 @@ namespace AsmissionContestCS.UI
             Console.WriteLine("4 - Add Sectie");
             Console.WriteLine("5 - Remove Sectie");
             Console.WriteLine("6 - Update Sectie");
-            Console.WriteLine("7 - All Candidati");
-            Console.WriteLine("8 - All Sectii");
+            Console.WriteLine("7 - Add Inscriere");
+            Console.WriteLine("8 - Remove Inscriere");
+            Console.WriteLine("9 - All Candidati");
+            Console.WriteLine("10 - All Sectii");
+            Console.WriteLine("11 - All Inscrieri");
             Console.WriteLine("0 - Exit");
             Enter();
             Console.WriteLine("Optiune: ");
@@ -254,7 +368,7 @@ namespace AsmissionContestCS.UI
             string line = Console.ReadLine();
 
             if (int.TryParse(line,out cmd)) {
-                if (cmd >= 0 && cmd <= 9)
+                if (cmd >= 0 && cmd <= 11)
                 {
                     return cmd;
                 }
